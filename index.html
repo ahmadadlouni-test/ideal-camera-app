@@ -1,0 +1,47 @@
+<html lang=”en” !doctype>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Name of the app -->
+		<title>Camera App</title>
+
+		<!-- Link to main style sheet -->
+		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	</head>
+	<body>
+
+
+		<button id="openCameraButton">Open camera to scan</button>
+		<!-- Camera -->
+		<main id="camera" style="display: none;">
+
+		    <!-- Camera sensor -->
+		    <!-- <canvas id="camera--sensor"></canvas> -->
+
+		    <!-- Camera view -->
+				<div class="camera--view--container">
+					<video id="camera--view" autoplay playsinline></video>
+				</div>
+
+		    <!-- Camera output -->
+		    <img src="//:0" alt="" id="camera--output-front" />
+				<img src="//:0" alt="" id="camera--output-back" />
+
+		    <!-- Camera trigger -->
+				<div class="camera-trigger-container">
+					<p id="cardSideText">Front Side</p>
+					<button id="camera--trigger">
+						<i class="fas fa-camera"></i>
+					</button>
+				</div>
+
+		</main>
+
+		<!-- Reference to your JavaScript file -->
+		<script src="app.js"></script> 
+	</body>
+</html>
