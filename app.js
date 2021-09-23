@@ -1,7 +1,7 @@
 // Set constraints for the video stream
 // const constraints = { video: { facingMode: 'environment', width: 600, height: 378 }, audio: false };
 // const constraints = { video: { facingMode: 'environment', width: 378, height: 600 }, audio: false };
-const constraints = { video: { facingMode: 'environment', width: { ideal: 630 }, height: { ideal: 1000 } }, audio: false };
+const constraints = { video: { facingMode: 'environment', width: { ideal: 1000 }, height: { ideal: 630 } }, audio: false };
 
 let track = null;
 
