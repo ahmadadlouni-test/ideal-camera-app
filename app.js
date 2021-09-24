@@ -1,7 +1,35 @@
 // Set constraints for the video stream
 // const constraints = { video: { facingMode: 'environment', width: 600, height: 378 }, audio: false };
 // const constraints = { video: { facingMode: 'environment', width: 378, height: 600 }, audio: false };
-const constraints = { video: { facingMode: 'environment', width: { ideal: 630 }, height: { ideal: 1000 } }, audio: false };
+// const constraints = { 
+//     video: { 
+//         facingMode: 'environment', 
+//         width: { min: 378, ideal: 630, max: 630 }, 
+//         height: { min: 600, ideal: 1000, max: 1000 } 
+//     }, 
+//     audio: false 
+// };
+
+
+
+// const constraints = { 
+//     video: { 
+//         facingMode: 'environment', 
+//         width: { min: 600, ideal: 1000, max: 1000 }, 
+//         height: { min: 378, ideal: 630, max: 630 } 
+//     }, 
+//     audio: false 
+// };
+
+
+const constraints = { 
+    video: { 
+        facingMode: 'environment', 
+        width: { min: 378, ideal: 630, max: 630 }, 
+        height: { min: 600, ideal: 1000, max: 1000 } 
+    }, 
+    audio: false 
+};
 
 let track = null;
 
@@ -163,7 +191,7 @@ const cameraStart = async () => {
 }
 
 openCameraButton.onclick = function () {
-    openFullScreen();
+    //openFullScreen();
     this.style.display = 'none'
     mainContainer.style.display = '';
     cameraStart();
