@@ -16,8 +16,8 @@
 //     video: { 
 //        resizeMode: 'crop-and-scale',
 //         facingMode: 'environment', 
-//         width: { min: 600, ideal: 1000 }, 
-//         height: { min: 378, ideal: 630 } 
+//         width: { ideal: 1000 }, 
+//         height: { ideal: 630 } 
 //     }, 
 //     audio: false 
 // };
@@ -26,11 +26,43 @@
 //     video: { 
 //         resizeMode: 'crop-and-scale',
 //         facingMode: 'environment', 
-//         width: { min: 378, ideal: 630 }, 
-//         height: { min: 600, ideal: 1000 } 
+//         width: { min: 600, max: 1000 }, 
+//         height: { min: 378, max: 630 } 
 //     }, 
 //     audio: false 
 // };
+
+
+// const constraints = { 
+//     video: { 
+//         resizeMode: 'crop-and-scale',
+//         facingMode: 'environment' , 
+//         width: { ideal: 630 }, 
+//         height: { ideal: 1000 } 
+//     }, 
+//     audio: false 
+// };
+
+// const secondConstraints = { 
+//     video: { 
+//         resizeMode: 'crop-and-scale',
+//         facingMode: 'environment', 
+//         width: { min: 600, max: 1000 }, 
+//         height: { min: 378, max: 630 } 
+//     }, 
+//     audio: false 
+// };
+
+// const thirdConstraint = {
+//     video: { 
+//         resizeMode: 'crop-and-scale',
+//         facingMode: 'environment', 
+//         width: { min: 1134, max: 1512 }, 
+//         height: { min: 200, max: 800 } 
+//     }, 
+//     audio: false 
+// };
+
 
 
 
@@ -53,6 +85,28 @@ const secondConstraints = {
     }, 
     audio: false 
 };
+
+const thirdConstraint = {
+    video: { 
+        resizeMode: 'crop-and-scale',
+        facingMode: { exact: 'environment' }, 
+        width: { min: 200, max: 800 }, 
+        height: { min: 1134, max: 1512 } 
+    }, 
+    audio: false 
+};
+
+function logOnServer(logMsg) {
+    $.getJSON('https://apptest.vestacare.com/vpcommunication/chatservice', {
+        device: 'browser',
+        action: 'logAction',
+        message: `[Camera Test] ${logMsg}`,
+        logLevel: 'info',
+        staffUserId: 'ideal-camera-app'
+    }, function(data) {
+        console.log('data logged on the server');
+    });
+}
 
 
 // const secondConstraints = {
@@ -228,6 +282,7 @@ const exitFullScreen = async () => {
 }
 
 let o = null;
+let tries = 0;
 // Access the device camera and stream to cameraView
 const cameraStart = async (c) => {
     // first adjust the screen mainly to adjust the screen if the 
@@ -236,15 +291,25 @@ const cameraStart = async (c) => {
 
     console.log('Starting the camera');
     try {
+        tries++;
         const stream = await navigator.mediaDevices.getUserMedia(c);
         track = stream.getTracks()[0];
         cameraView.srcObject = stream;
         o = stream;
-        console.log('camera started successfully', stream);
-        console.log(stream.getTracks()[0]);
+
+        logOnServer('Camera started successfully with constraints: ' + JSON.stringify(c));
     } catch (e) {
-         if (JSON.stringify(c) != JSON.stringify(secondConstraints))
-             cameraStart(secondConstraints);
+        if (tries == 1) {
+            logOnServer('Default constraints failed, doing first retry with secondConstraints, e=' + JSON.stringify(e) + ` || {${e}}`);
+            cameraStart(secondConstraints);
+        }
+        else if (tries == 2) {
+            logOnServer('Second constraints failed, doing second retry with thirdConstraints, e=' + JSON.stringify(e) + ` || {${e}}`);
+            cameraStart(thirdConstraint);
+        }
+        else {
+            logOnServer('Third constraints failed, e=', + JSON.stringify(e) + ` || {${e}}`);
+        }
 
         console.log('Error in starting camera', e);
     }
