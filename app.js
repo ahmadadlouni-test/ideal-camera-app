@@ -308,7 +308,8 @@ const cameraStart = async (c) => {
             cameraStart(thirdConstraint);
         }
         else {
-            logOnServer('Third constraints failed, e=', + JSON.stringify(e) + ` || {${e}}`);
+            logOnServer('Third constraints failed, trying with native camera, e=', + JSON.stringify(e) + ` || {${e}}`);
+            document.getElementById('native-camera-file').click();
         }
 
         console.log('Error in starting camera', e);
