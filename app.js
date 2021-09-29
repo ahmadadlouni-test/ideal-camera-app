@@ -31,8 +31,10 @@
 // };
 
 
+
 const constraints = { 
     video: { 
+        resizeMode: 'crop-and-scale',
         facingMode: { exact: 'environment' }, 
         width: { min: 378, ideal: 630, max: 630 }, 
         height: { min: 600, ideal: 1000, max: 1000 } 
@@ -42,12 +44,33 @@ const constraints = {
 
 const secondConstraints = {
     video: { 
+        resizeMode: 'crop-and-scale',
         facingMode: { exact: 'environment' }, 
         width: { min: 600, ideal: 1000, max: 1000 }, 
         height: { min: 378, ideal: 630, max: 630 } 
     }, 
     audio: false 
 };
+
+// const constraints = { 
+//     video: { 
+//         resizeMode: 'crop-and-scale',
+//         facingMode: 'environment', 
+//         width: { min: 378, ideal: 630, max: 630 }, 
+//         height: { min: 600, ideal: 1000, max: 1000 } 
+//     }, 
+//     audio: false 
+// };
+
+// const secondConstraints = {
+//     video: { 
+//         resizeMode: 'crop-and-scale',
+//         facingMode: 'environment', 
+//         width: { min: 600, ideal: 1000, max: 1000 }, 
+//         height: { min: 378, ideal: 630, max: 630 } 
+//     }, 
+//     audio: false 
+// };
 
 let track = null;
 
