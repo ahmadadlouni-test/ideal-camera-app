@@ -1,5 +1,5 @@
 // Set constraints for the video stream
-// const constraints = { video: { facingMode: 'environment', width: 600, height: 378 }, audio: false };
+// const constraints = { video: { facingMode: { exact: 'environment' }, width: 600, height: 378 }, audio: false };
 // const constraints = { video: { facingMode: 'environment', width: 378, height: 600 }, audio: false };
 // const constraints = { 
 //     video: { 
@@ -15,8 +15,17 @@
 // const constraints = { 
 //     video: { 
 //         facingMode: 'environment', 
-//         width: { min: 600, ideal: 1000, max: 1000 }, 
-//         height: { min: 378, ideal: 630, max: 630 } 
+//         width: { min: 600, max: 1000 }, 
+//         height: { min: 378, max: 630 } 
+//     }, 
+//     audio: false 
+// };
+
+// const constraints = { 
+//     video: { 
+//         facingMode: 'environment', 
+//         width: { min: 378, ideal: 630, max: 630 }, 
+//         height: { min: 600, ideal: 1000, max: 1000 } 
 //     }, 
 //     audio: false 
 // };
@@ -24,9 +33,18 @@
 
 const constraints = { 
     video: { 
-        facingMode: 'environment', 
+        facingMode: { exact: 'environment' }, 
         width: { min: 378, ideal: 630, max: 630 }, 
         height: { min: 600, ideal: 1000, max: 1000 } 
+    }, 
+    audio: false 
+};
+
+const secondConstraints = {
+    video: { 
+        facingMode: { exact: 'environment' }, 
+        width: { min: 600, ideal: 1000, max: 1000 }, 
+        height: { min: 378, ideal: 630, max: 630 } 
     }, 
     audio: false 
 };
@@ -63,7 +81,7 @@ const cameraView = document.querySelector("#camera--view"),
  * This function is used to play camera shutter sound
  */
 const playCameraShutterSound = () => {
-    console.log('Entering playCameraShutterSound() function')
+    console.log('Entering playCameraShutterSound() function');
     try {
         const audio = new Audio('camera-shutter-sound.mp3');
         audio.play();
@@ -173,19 +191,25 @@ const exitFullScreen = async () => {
     console.log('Exiting exitFullSCreen() function');
 }
 
+let o = null;
 // Access the device camera and stream to cameraView
-const cameraStart = async () => {
+const cameraStart = async (c) => {
     // first adjust the screen mainly to adjust the screen if the 
     // camera is opened in landscape mode
     adjustScreen();
 
     console.log('Starting the camera');
     try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const stream = await navigator.mediaDevices.getUserMedia(c);
         track = stream.getTracks()[0];
         cameraView.srcObject = stream;
+        o = stream;
         console.log('camera started successfully', stream);
+        console.log(stream.getTracks()[0]);
     } catch (e) {
+         if (JSON.stringify(c) != JSON.stringify(secondConstraints))
+             cameraStart(secondConstraints);
+
         console.log('Error in starting camera', e);
     }
 }
@@ -194,7 +218,7 @@ openCameraButton.onclick = function () {
     //openFullScreen();
     this.style.display = 'none'
     mainContainer.style.display = '';
-    cameraStart();
+    cameraStart(constraints);
 }
 
 // Take a picture when cameraTrigger is tapped
