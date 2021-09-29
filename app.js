@@ -38,8 +38,8 @@ const constraints = {
     video: { 
         resizeMode: 'crop-and-scale',
         facingMode: { exact: 'environment' }, 
-        width: { min: 378, ideal: 630 }, 
-        height: { min: 600, ideal: 1000 } 
+        width: { ideal: 630 }, 
+        height: { ideal: 1000 } 
     }, 
     audio: false 
 };
